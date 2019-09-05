@@ -27,13 +27,13 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public List<User> findUserByName(String name) {
-		return userRepository.findByNameLike(name);
+		return userRepository.findByNameLike("%"+name+"%");
 	}
 	
 	public void save(User user) {
 		userRepository.save(user);
 	}
-
+	
 	public void findById(Long id) {
 		userRepository.findById(id);
 	}

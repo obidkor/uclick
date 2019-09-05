@@ -53,5 +53,5 @@ public class Sample {
 	//Querydsl을 사용하여 Hibernate에서는 만들기 힘든 쿼리 등을 작성가능 구현은 Repository에 적어준다.
 	//사용법 : http://www.querydsl.com/static/querydsl/4.0.1/reference/ko-KR/html_single/#d0e285
 	//사용법 : https://adrenal.tistory.com/23
-
+	//L2cache : https://www.baeldung.com/hibernate-second-level-cache
 }

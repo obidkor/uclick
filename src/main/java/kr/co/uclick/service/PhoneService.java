@@ -26,7 +26,7 @@ public class PhoneService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Phone> findSampleByNumber(String number) {
+	public List<Phone> findPhoneByNumber(String number) {
 		return phoneRepository.findByNumber(number);
 	}
 	
