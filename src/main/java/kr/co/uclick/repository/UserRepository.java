@@ -17,7 +17,10 @@ import kr.co.uclick.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User>{
 	
-	@Cacheable("user")
+//	@QueryHints(value = {
+//            @QueryHint(name = "org.hibernate.cacheable", value = "true"),
+//            @QueryHint(name = "org.hibernate.cacheRegion", value = "user-by-lastname")
+//            })
 	public List<User> findByNameLike(String name);
 	
 	public Page<User> findAll(Pageable pageable); 

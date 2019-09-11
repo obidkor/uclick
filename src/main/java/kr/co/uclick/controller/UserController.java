@@ -49,15 +49,16 @@ public class UserController {
 	@RequestMapping(value = "/{page}" ,method = {RequestMethod.GET, RequestMethod.POST})
 	public String userList(@PathVariable("page") Integer page, 
 							@RequestParam HashMap<String,String> map, 
-							Pageable pageable, Model model) {
-	    
-		Paging p = new Paging();
-		p.setPagenow(page+1).setCountList(5);
-		
+							Model model) {
 		if(page==null||page<0) {
 	    	page=0;
 	    }
-		pageable = PageRequest.of(page, p.countList);
+		
+		Paging p = new Paging();
+		p.setPagenow(page+1).setCountList(5);
+		
+
+		Pageable pageable = PageRequest.of(page, p.countList);
 		
 		//뽑혀야 할 전체 페이지버튼 수
 	    try {
@@ -107,9 +108,13 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "userSave.html")
-	public String userSave(User user,List<String> numbers, Model model) {
-		for(String number:numbers) {
-			user.addPhone(new Phone(number));
+	public String userSave(User user,@RequestParam(name="number",required=false) List<String> numbers, Model model) {
+		try {
+			for(String number:numbers) {
+				user.addPhone(new Phone(number));
+			}
+		}catch(NullPointerException e) {
+			
 		}
 		userService.save(user);
 		return "redirect:/0";

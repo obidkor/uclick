@@ -60,9 +60,9 @@ public class JSONController {
 	    return map;
 	}
 	
-	@GetMapping
-	public Page<User> getUsers(final Pageable pageable){
-		return null;
-//		return userService.findAll(pageable).map(UserDto.)
-	}
+//	@GetMapping
+//	public Page<User> getUsers(final Pageable pageable){
+//		return null;
+////		return userService.findAll(pageable).map(UserDto.)
+//	}
 }

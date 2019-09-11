@@ -7,8 +7,12 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ignite.cache.hibernate.HibernateRegionFactory;
+import org.hibernate.MappingException;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.MySQL5Dialect;
+import org.hibernate.engine.spi.Mapping;
+import org.hibernate.id.factory.IdentifierGeneratorFactory;
+import org.hibernate.type.Type;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -44,8 +48,10 @@ public class SpringConfiguration {
 	@Primary//@Primary로 같은 우선순위로 있는 클래스가 여러개가 있을 시 그 중 가장 우선순위로 주입할 클래스 타입을 선택(빈객체 생성과정에서 의존관계 문제해결)
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://192.168.56.102:3306/uclick");
+//		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//		dataSource.setUrl("jdbc:mysql://192.168.56.102:3306/uclick");
+		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
+		dataSource.setUrl("jdbc:mariadb://104.198.127.222:3306/uclick");
 		dataSource.setUsername("root");
 		dataSource.setPassword("rlarldbs21");
 		return dataSource;
@@ -103,23 +109,28 @@ public class SpringConfiguration {
 		properties.setProperty(AvailableSettings.USE_SECOND_LEVEL_CACHE, Boolean.TRUE.toString());//Enable the second-level cache (enabled by default)
 		properties.setProperty(AvailableSettings.USE_QUERY_CACHE, Boolean.TRUE.toString());//Enable the query cache (disabled by default)
 		properties.setProperty(AvailableSettings.GENERATE_STATISTICS, Boolean.FALSE.toString());//Enable statistics collection
-//		properties.setProperty(AvailableSettings.CACHE_REGION_FACTORY, HibernateRegionFactory.class.getName());//The RegionFactory implementation class
+		properties.setProperty(AvailableSettings.CACHE_REGION_FACTORY, HibernateRegionFactory.class.getName());//The RegionFactory implementation class
 
-		properties.setProperty("org.apache.ignite.hibernate.ignite_instance_name", "cafe-grid");
+		properties.setProperty("org.apache.ignite.hibernate.ignite_instance_name", "cafe-grid"); 
 		//Specify the name of the grid, that will be used for second level caching.
 		properties.setProperty("org.apache.ignite.hibernate.default_access_type", "NONSTRICT_READ_WRITE");
+
 		//Set default L2 cache access type.
 		//참고 : https://apacheignite-mix.readme.io/docs/hibernate-l2-cache
 		properties.setProperty(AvailableSettings.PHYSICAL_NAMING_STRATEGY,
 				CustomPhysicalNamingStrategyStandardImpl.class.getName());
 		//naming 전략은 CustomPhysicalNamingStrategyStandardImpl를 쓰겟음
+		
+		
+		//밑음 hibernate l2cache-ehcache로 이용
 //		properties.setProperty("hibernate.cache.use_second_level_cache", "true");//secondlevel cache enable
-		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory"); //캐시구현제 지정
+//		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory"); //캐시구현제 지정
 //		properties.setProperty("spring.jpa.properties.hibernate.cache.use_query_cache", "true");// query cache enable
-		properties.setProperty("spring.jpa.properties.javax.persistence.sharedCache.mode", "ALL");
-		properties.setProperty("hibernate.cache.region_prefix", "");
+//		properties.setProperty("spring.jpa.properties.javax.persistence.sharedCache.mode", "ALL");
+//		properties.setProperty("hibernate.cache.region_prefix", "");
 		return properties;
 	}
+	
 
 	
 	

@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -35,7 +36,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 // 참고 : https://dololak.tistory.com/479
 )
 @Table(name = "user")
-@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User {
 
 	@Id // 키값 설정
@@ -52,7 +53,7 @@ public class User {
 
 //	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
+//	@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Collection<Phone> phone;
 	
 	// For convenience, to take advantage of the entity state transitions and the

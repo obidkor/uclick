@@ -23,6 +23,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
 		// Manage the lifecycle of the root application context serveltcontext리스너 등록(rootcontext를)
 		servletCxt.addListener(new ContextLoaderListener(rootContext));
 
+
 		// Create the dispatcher servlet's Spring application context
 		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
 		dispatcherContext.register(SpringWebConfiguration.class); //dispather context --> springwebconfiguration 대체
@@ -32,6 +33,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
 				new DispatcherServlet(dispatcherContext));
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping("/");
+
 		
 		//endcoding filter
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();

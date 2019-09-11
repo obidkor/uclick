@@ -1,7 +1,7 @@
 const saveForm = document.querySelector(".userSaveForm");
 const submitBtn = document.querySelector(".submitBtn");
 const phoneList = document.querySelector(".phoneList");
-let index = 0;
+
 
 function deleteForm(event){
   const btn = event.target;
@@ -14,12 +14,10 @@ function addForm(){
 	const delBtn =document.createElement("button");
 	delBtn.type="button";
 	const li =document.createElement("li");
-	const newId = index+1;
 	delBtn.innerText = "추가 취소";
 	input.type = "text";
 	input.classname = "phone";
 	input.name = "number"; 
-	input.id = newId;
 	phoneList.appendChild(li);
 	li.appendChild(input);
 	li.appendChild(delBtn);
@@ -28,7 +26,7 @@ function addForm(){
 }
 
 function handleSubmit(){
-	$(".userSaveForm").submit();
+	saveForm.submit();
 }
 
 function loadAddBtn(){
@@ -47,3 +45,5 @@ submitBtn.addEventListener("click",handleSubmit)
 }
 
 init();
+
+console.log('fdsafdsafds');

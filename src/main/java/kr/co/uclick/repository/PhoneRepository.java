@@ -9,7 +9,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import kr.co.uclick.entity.Phone;
 
 public interface PhoneRepository  extends JpaRepository<Phone, Long>, QuerydslPredicateExecutor<Phone>{
-	@Cacheable("phone")
+//	@Cacheable("phone")
 	public List<Phone> findByNumberContaining(String number);
 	
 	

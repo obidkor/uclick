@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,7 +23,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity(name="Phone")
 @Table(name="phone")
-@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Phone {
 
 	@Id
@@ -35,7 +36,7 @@ public class Phone {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
+//	@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 	private User user;
 	
 	@Column(name="enroll_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
