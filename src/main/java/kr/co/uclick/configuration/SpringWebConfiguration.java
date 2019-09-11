@@ -1,11 +1,16 @@
 package kr.co.uclick.configuration;
 
+import java.util.List;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -19,6 +24,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 //Spring의 mvc를 간단하게 설정할 수 있는 방법
 @Configuration
 @EnableWebMvc
+@EnableSpringDataWebSupport
 @ComponentScan("kr.co.uclick.controller")
 public class SpringWebConfiguration implements WebMvcConfigurer {
 //Defines callback methods for Spring MVC
@@ -38,7 +44,13 @@ public class SpringWebConfiguration implements WebMvcConfigurer {
 		//ignoreAcceptHeader (true)를하면 JSON을 반환하는 XML API도 모두 JSON
 		//ignoreAcceptHeader (false)가 기본값 인 경우 XML
 	}
+	
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+	argumentResolvers.add(new PageableHandlerMethodArgumentResolver());
+	}
 
+	
 	//특정url진입시 로그인 검사 / 토큰검사 / 계정권한에 다라 접근막아야할때
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

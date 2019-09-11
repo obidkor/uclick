@@ -22,6 +22,8 @@ public class QPhone extends EntityPathBase<Phone> {
 
     public static final QPhone phone = new QPhone("phone");
 
+    public final DateTimePath<java.sql.Timestamp> enrollDate = createDateTime("enrollDate", java.sql.Timestamp.class);
+
     public final StringPath number = createString("number");
 
     public final NumberPath<Integer> seq = createNumber("seq", Integer.class);

@@ -103,7 +103,7 @@ public class SpringConfiguration {
 		properties.setProperty(AvailableSettings.USE_SECOND_LEVEL_CACHE, Boolean.TRUE.toString());//Enable the second-level cache (enabled by default)
 		properties.setProperty(AvailableSettings.USE_QUERY_CACHE, Boolean.TRUE.toString());//Enable the query cache (disabled by default)
 		properties.setProperty(AvailableSettings.GENERATE_STATISTICS, Boolean.FALSE.toString());//Enable statistics collection
-		properties.setProperty(AvailableSettings.CACHE_REGION_FACTORY, HibernateRegionFactory.class.getName());//The RegionFactory implementation class
+//		properties.setProperty(AvailableSettings.CACHE_REGION_FACTORY, HibernateRegionFactory.class.getName());//The RegionFactory implementation class
 
 		properties.setProperty("org.apache.ignite.hibernate.ignite_instance_name", "cafe-grid");
 		//Specify the name of the grid, that will be used for second level caching.
@@ -113,6 +113,11 @@ public class SpringConfiguration {
 		properties.setProperty(AvailableSettings.PHYSICAL_NAMING_STRATEGY,
 				CustomPhysicalNamingStrategyStandardImpl.class.getName());
 		//naming 전략은 CustomPhysicalNamingStrategyStandardImpl를 쓰겟음
+//		properties.setProperty("hibernate.cache.use_second_level_cache", "true");//secondlevel cache enable
+		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory"); //캐시구현제 지정
+//		properties.setProperty("spring.jpa.properties.hibernate.cache.use_query_cache", "true");// query cache enable
+		properties.setProperty("spring.jpa.properties.javax.persistence.sharedCache.mode", "ALL");
+		properties.setProperty("hibernate.cache.region_prefix", "");
 		return properties;
 	}
 

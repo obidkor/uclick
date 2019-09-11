@@ -1,5 +1,9 @@
 package kr.co.uclick.entity;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
+import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,14 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity(name="Phone")
 @Table(name="phone")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Phone {
 
 	@Id
@@ -28,12 +33,28 @@ public class Phone {
 	@Column(nullable = false, length = 20) // 컬럼 속성 결정
 	private String number;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 	private User user;
+	
+	@Column(name="enroll_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Timestamp enrollDate;
 
+	public Phone() {
+
+	}
+	
 	public Phone(String number) {
 		this.number=number;
+	}
+
+	public Timestamp getEnrollDate() {
+		return enrollDate;
+	}
+
+	public void setEnrollDate(Timestamp enrollDate) {
+		this.enrollDate = enrollDate;
 	}
 
 	public int getSeq() {

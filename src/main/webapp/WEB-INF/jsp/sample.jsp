@@ -11,9 +11,6 @@ Samples : ${samples } <br />
 
 Sample.name : ${sample.name } <br />
 findSampleByName : ${findSampleByName} <br />
-findSampleByName.id : ${findSampleByName.get(0).id} <br />
-findSampleByName.name : ${findSampleByName.get(0).name} <br />
-findSampleByName.number : ${findSampleByName.get(0).number} <br />
 
 </body>
 </html>

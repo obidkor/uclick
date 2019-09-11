@@ -1,6 +1,7 @@
 package kr.co.uclick.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,10 @@ public class PhoneService {
 	@Autowired
 	private PhoneRepository phoneRepository;
 	
-	public void delete(Phone entity) {
-		phoneRepository.delete(entity);
+	
+	@Transactional
+	public void delete(Phone p) {
+		phoneRepository.delete(p);
 	}
 	
 	@Transactional(readOnly=true)
@@ -27,15 +30,16 @@ public class PhoneService {
 	
 	@Transactional(readOnly = true)
 	public List<Phone> findPhoneByNumber(String number) {
-		return phoneRepository.findByNumber(number);
+		return phoneRepository.findByNumberContaining(number);
 	}
 	
 	public void save(Phone phone) {
 		phoneRepository.save(phone);
 	}
 
-	public void findById(int phoneSeq) {
-		phoneRepository.findBySeq(phoneSeq);
+	public Phone findById(int phoneSeq) {
+		return phoneRepository.findBySeq(phoneSeq);
 	}
+
 	
 }
