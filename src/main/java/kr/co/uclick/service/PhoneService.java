@@ -16,7 +16,6 @@ import kr.co.uclick.entity.QPhone;
 import kr.co.uclick.repository.PhoneRepository;
 
 @Service
-@Transactional
 public class PhoneService {
 
 	@Autowired
@@ -51,7 +50,6 @@ public class PhoneService {
 	
 	
 	//jpa
-	@Transactional
 	public void delete(Phone p) {
 		logger.debug("delete() : {}, {}", p.getNumber(), "");
 		phoneRepository.delete(p);

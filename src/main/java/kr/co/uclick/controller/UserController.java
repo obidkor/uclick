@@ -191,6 +191,7 @@ public class UserController {
 		User u = userService.findById(id);
 		Phone p = phoneService.findById(seq);//이게문제
 		u.removePhone(p);
+		userService.save(u);//캐시갱신용(collection쪽에서 갱신이 일어나야 캐시도 갱신됨)
 		phoneService.delete(p);
 		return "redirect:oneUser.html?id="+u.getId();
 		

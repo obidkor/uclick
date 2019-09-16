@@ -50,7 +50,7 @@ public class UserService {
 		Predicate predicate = u.name.like("%"+name+"%");
 		return userRepository.findAll(predicate, pageable);
 	}
-	
+	@Transactional(readOnly = true)
 	public User findById(Long id) {
 		logger.debug("findById() : {}, {}", id, 1);
 		Predicate predicate = u.id.eq(id);

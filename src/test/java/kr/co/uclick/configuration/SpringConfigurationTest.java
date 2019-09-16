@@ -15,6 +15,8 @@ import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.internal.util.typedef.internal.U;
 import org.apache.ignite.logger.slf4j.Slf4jLogger;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +56,10 @@ public class SpringConfigurationTest {
 	@Autowired
 	UserService userService;
 	
+	
+	@Autowired
+	PhoneService phoneService;
+	
 	@Autowired
 	PhoneRepository phoneRepository;
 	private final QPhone p = QPhone.phone;
@@ -86,14 +92,31 @@ public class SpringConfigurationTest {
         	
         }
       }
+
+	@Test//테스트메소드임을 지정
+    public void test1() {
+		User u = userService.findById(2L);
+		u.addPhone(new Phone("1"));
+		userService.save(u);
+        }
+
 	
 	@Test//테스트메소드임을 지정
-    public void predicate_test_003() {
-		User u = userRepository.findById(3L).get();
-		u.addPhone(new Phone("1"));
-        userService.save(u);
-        }
-      }
+	public void test2() {
+		User u = userService.findById(2L);
+		Phone p = phoneService.findPhoneByNumber("1").get(0);//이게문제
+		u.removePhone(p);
+		userService.save(u);
+		phoneService.delete(p);
+	    }
+	  
+
+	@Test//테스트메소드임을 지정
+	public void test3() {
+		User u = userService.findById(2L);
+		
+	    }
+	  }
 	
 //	참고 : http://www.nextree.co.kr/p11104/
 //	https://jdm.kr/blog/141

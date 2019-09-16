@@ -48,10 +48,10 @@ public class SpringConfiguration {
 	@Primary//@Primary로 같은 우선순위로 있는 클래스가 여러개가 있을 시 그 중 가장 우선순위로 주입할 클래스 타입을 선택(빈객체 생성과정에서 의존관계 문제해결)
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://192.168.56.102:3306/uclick");
-//		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-//		dataSource.setUrl("jdbc:mariadb://104.198.127.222:3306/uclick");
+//		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//		dataSource.setUrl("jdbc:mysql://192.168.56.102:3306/uclick");
+		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
+		dataSource.setUrl("jdbc:mariadb://104.198.127.222:3306/uclick");
 		dataSource.setUsername("root");
 		dataSource.setPassword("rlarldbs21");
 		return dataSource;
