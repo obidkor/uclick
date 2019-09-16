@@ -84,7 +84,7 @@ public class Paging {
 		if (endPage > totalPage) {
 			this.endPage = totalPage;
 		}
-		return this.totalPage;
+		return this.totalPage;/////
 	}
 
 }
