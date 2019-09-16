@@ -29,6 +29,16 @@
 		</property>
 		<property name="cacheConfiguration">
 			<list>
+				<!-- Configuration for L2cache mapping -->
+				<bean parent="transactional-cache">
+				<property name="name" value="User"/>
+				</bean>
+				<bean parent="transactional-cache">
+				<property name="name" value="Phone"/>
+				</bean>
+				<bean parent="transactional-cache">
+				<property name="name" value="User.phone"/>
+				</bean>
 				<!-- Configuration for update timestamps cache. -->
 				<bean parent="atomic-cache">
 					<property name="name"

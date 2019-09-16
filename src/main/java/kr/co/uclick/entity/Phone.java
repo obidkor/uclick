@@ -1,5 +1,6 @@
 package kr.co.uclick.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -17,26 +18,32 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
-@Entity(name="Phone")
-@Table(name="phone")
-//@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
+@Entity
+@Table(name="phone",uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"number"})
+		})
+@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Phone {
 
+//	private static final long serialVersionUID = -21L;
 	@Id
 	@Column(name = "seq")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int seq;
 
-	@Column(nullable = false, length = 20) // 컬럼 속성 결정
+	@Column // 컬럼 속성 결정
 	private String number;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-//	@Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
+//	@Cache(region = "phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 	private User user;
 	
 	@Column(name="enroll_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

@@ -8,17 +8,34 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteLogger;
+import org.apache.ignite.Ignition;
+import org.apache.ignite.configuration.CacheConfiguration;
+import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.internal.util.typedef.internal.U;
+import org.apache.ignite.logger.slf4j.Slf4jLogger;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.core.types.Predicate;
+
 import kr.co.uclick.entity.Phone;
+import kr.co.uclick.entity.QPhone;
+import kr.co.uclick.entity.QUser;
 import kr.co.uclick.entity.Sample;
 import kr.co.uclick.entity.User;
+import kr.co.uclick.repository.PhoneRepository;
+import kr.co.uclick.repository.UserRepository;
 import kr.co.uclick.service.PhoneService;
 import kr.co.uclick.service.SampleService;
 import kr.co.uclick.service.UserService;
@@ -31,16 +48,53 @@ public class SpringConfigurationTest {
 	SampleService sampleService;
 	
 	@Autowired
+	UserRepository userRepository;
+	private final QUser u = QUser.user;
+	
+	@Autowired
 	UserService userService;
 	
 	@Autowired
-	PhoneService phoneService;
+	PhoneRepository phoneRepository;
+	private final QPhone p = QPhone.phone;
+	
 
+	
+	@Ignore
 	@Test//테스트메소드임을 지정
-	public void test() {	
-		userService.delete(24L);
-
-	}
+    public void predicate_test_001() {
+        //given(search all)
+        Predicate predicate = u.name.like("%"+"%");
+        Pageable pageable = PageRequest.of(0, 5);
+        //when
+        Page<User> users = userRepository.findAll(predicate,pageable);
+        //then
+        for(User user : users) {
+        	System.out.println("출력" +user.getName());
+        }
+      }
+	@Ignore
+	@Test//테스트메소드임을 지정
+    public void predicate_test_002() {
+        //given
+        Predicate predicate = null;
+        //when
+        List<Phone> phones = (List<Phone>) phoneRepository.findAll(predicate);
+        //then
+        for(Phone phone : phones) {
+        	System.out.println("출력" +phone.getNumber());
+        	
+        }
+      }
+	
+	@Test//테스트메소드임을 지정
+    public void predicate_test_003() {
+		User u = userRepository.findById(3L).get();
+		u.addPhone(new Phone("1"));
+        userService.save(u);
+        }
+      }
+	
 //	참고 : http://www.nextree.co.kr/p11104/
 //	https://jdm.kr/blog/141
 //
@@ -51,5 +105,5 @@ public class SpringConfigurationTest {
 //		userService.findById(16L).get().getPhone().clear();
 //		userService.delete(16L);
 	
-	}
+//	}
 //}

@@ -4,9 +4,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -42,7 +44,7 @@ public class UserController {
 	
 //	@RequestMapping(value = "/")
 //	public String index() {
-//		return "redirect:/userList.html/0";
+//		return "redirect:/0";
 //	}
 	
 	//@GetMapping : @RequestMapping(method = RequestMethod.GET) 의 축약형으로써, 애너테이션만 보고 무슨 메소드 요청인지 바로 알아볼 수 있다
@@ -53,17 +55,15 @@ public class UserController {
 		if(page==null||page<0) {
 	    	page=0;
 	    }
-		
 		Paging p = new Paging();
 		p.setPagenow(page+1).setCountList(5);
 		
-
 		Pageable pageable = PageRequest.of(page, p.countList);
 		
 		//뽑혀야 할 전체 페이지버튼 수
 	    try {
 		if(map.get("search").equals("2")) {
-	    	p.setTotalCount(userService.findUserByName(map.get("value"), pageable).getTotalPages());
+	    	p.setTotalCount(userService.userCountByName(map.get("value")).intValue());
 	    }
 	    }catch(NullPointerException e) {
 	    	p.setTotalCount(userService.userCount().intValue());
@@ -92,7 +92,9 @@ public class UserController {
 	public String userOneView(@RequestParam("id") String id,Model model) 
 	{
 		Long uid = Long.parseLong(id);
-		model.addAttribute("user", userService.findById(uid));
+		User user = userService.findById(uid);
+//		Hibernate.initialize(user.getPhone());
+		model.addAttribute("user", user);
 		return "oneUser";	
 	}
 	
@@ -110,13 +112,18 @@ public class UserController {
 	@PostMapping(value = "userSave.html")
 	public String userSave(User user,@RequestParam(name="number",required=false) List<String> numbers, Model model) {
 		try {
-			for(String number:numbers) {
-				user.addPhone(new Phone(number));
+			try {
+				for(String number:numbers) {
+					user.addPhone(new Phone(number));
+				}
+			}catch(NullPointerException e) {
+				return "redirect:/0";
 			}
-		}catch(NullPointerException e) {
-			
+			userService.save(user);
+		}catch(DataIntegrityViolationException e) {
+			model.addAttribute("error",e);
+			return "error";
 		}
-		userService.save(user);
 		return "redirect:/0";
 	}
 
@@ -140,9 +147,16 @@ public class UserController {
 	
 	@PostMapping(value = "phoneSave.html")
 	public String phoneSave(Long id,String number,Model model) {	
-		User user = userService.findById(id);
-		user.addPhone(new Phone(number));
-		userService.save(user);
+		
+		User user = null;
+		try {
+			user = userService.findById(id);
+			user.addPhone(new Phone(number));
+			userService.save(user);
+		}catch(DataIntegrityViolationException e) {
+			model.addAttribute("error",e);
+			return "error";
+		}
 		return "redirect:oneUser.html?id="+user.getId();
 	}
 	
@@ -154,10 +168,15 @@ public class UserController {
 	
 	@PostMapping(value = "phoneUpdate.html")
 	public String phonePupdate(Phone phone, Model model) {
+		try {
 		String number = phone.getNumber();
 		phone = phoneService.findById(phone.getSeq());
 		phone.setNumber(number);
 		phoneService.save(phone);
+		}catch(DataIntegrityViolationException e) {
+			model.addAttribute("error",e);
+			return "error";
+		}
 		return "redirect:oneUser.html?id="+phoneService.findById(phone.getSeq()).getUser().getId();
 	}
 	
@@ -167,12 +186,14 @@ public class UserController {
 		String uid = map.get("uid");
 		int seq = Integer.parseInt(pid);
 		Long id = Long.parseLong(uid);
+
 		
 		User u = userService.findById(id);
-		Phone p = phoneService.findById(seq);
+		Phone p = phoneService.findById(seq);//이게문제
 		u.removePhone(p);
 		phoneService.delete(p);
 		return "redirect:oneUser.html?id="+u.getId();
+		
 	}
 	
 }

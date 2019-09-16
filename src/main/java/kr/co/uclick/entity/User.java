@@ -1,5 +1,6 @@
 package kr.co.uclick.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity(name = "User")
+@Entity
 @SequenceGenerator(name = "USER_SEQ_GEN", // 시퀀스 제너레이터 이름
 		sequenceName = "USER_SEQ", // 시퀀스 이름
 		initialValue = 1, // 시작값
@@ -36,8 +37,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 // 참고 : https://dololak.tistory.com/479
 )
 @Table(name = "user")
-//@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
-public class User {
+@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
+public class User{
+	
+//	private static final long serialVersionUID = 1L;
 
 	@Id // 키값 설정
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, // 사용할 전략을 시퀀스로 선택
@@ -53,7 +56,7 @@ public class User {
 
 //	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
+	@Cache(region = "User.phone", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Collection<Phone> phone;
 	
 	// For convenience, to take advantage of the entity state transitions and the

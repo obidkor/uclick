@@ -24,7 +24,7 @@ public class JSONController {
 	@RequestMapping("sendList")
 	public List<User> sendList() {
 			List<User> list = new ArrayList<User>();
-	    for (int i = 0; i < userService.findAll().size(); i++) {
+	    for (int i = 0; i < userService.userCount(); i++) {
 	        List<User> users = userService.findAll();
 	    	User u = new User();
 	        u.setId(users.get(i).getId());
@@ -44,7 +44,7 @@ public class JSONController {
 	public Map<Integer, User> sendMap() {
 	    Map<Integer, User> map = new HashMap<>();
 
-	    for (int i = 0; i < userService.findAll().size(); i++) {
+	    for (int i = 0; i < userService.userCount(); i++) {
 	        List<User> list = userService.findAll();
 	    	User u = new User();
 	        u.setId(list.get(i).getId());
