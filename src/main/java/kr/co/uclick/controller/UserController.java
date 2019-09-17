@@ -42,10 +42,10 @@ public class UserController {
 	@Autowired
 	private PhoneService phoneService;
 	
-//	@RequestMapping(value = "/")
-//	public String index() {
-//		return "redirect:/0";
-//	}
+	@RequestMapping(value = "/")
+	public String index() {
+		return "redirect:/0";
+	}
 	
 	//@GetMapping : @RequestMapping(method = RequestMethod.GET) 의 축약형으로써, 애너테이션만 보고 무슨 메소드 요청인지 바로 알아볼 수 있다
 	@RequestMapping(value = "/{page}" ,method = {RequestMethod.GET, RequestMethod.POST})
@@ -64,6 +64,8 @@ public class UserController {
 	    try {
 		if(map.get("search").equals("2")) {
 	    	p.setTotalCount(userService.userCountByName(map.get("value")).intValue());
+	    }else if(map.get("search").equals("1")) {
+	    	p.setTotalCount(userService.findUserByNumber(map.get("value"), pageable).getTotalPages());
 	    }
 	    }catch(NullPointerException e) {
 	    	p.setTotalCount(userService.userCount().intValue());
@@ -80,7 +82,7 @@ public class UserController {
 			model.addAttribute("users", userService.findUserByName(map.get("value"),pageable));
 		}else if(map.get("search").equals("1")) {
 			model.addAttribute("search",map.get("search"));
-			model.addAttribute("phones", phoneService.findPhoneByNumber(map.get("value")));
+			model.addAttribute("users", userService.findUserByNumber(map.get("value"), pageable));
 		}
 		}catch(NullPointerException e) {
 			model.addAttribute("users", userService.findAll(pageable));
@@ -93,7 +95,6 @@ public class UserController {
 	{
 		Long uid = Long.parseLong(id);
 		User user = userService.findById(uid);
-//		Hibernate.initialize(user.getPhone());
 		model.addAttribute("user", user);
 		return "oneUser";	
 	}
@@ -137,6 +138,26 @@ public class UserController {
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@GetMapping(value="phoneList.html/{page}")
+	public String phoneList(@PathVariable Integer page,Model model) {
+		if(page==null||page<0) {
+	    	page=0;
+	    }
+		Paging p = new Paging();
+		p.setPagenow(page+1).setCountList(5);
+		p.setTotalCount(phoneService.phoneCount().intValue());
+		p.calcPage();
+		
+		model.addAttribute("startRange", p.startPage);
+		model.addAttribute("endRange", p.endPage);
+		model.addAttribute("page", p.pagenow);
+		
+		
+		Pageable pageable = PageRequest.of(page, p.countList);
+		model.addAttribute("phones",phoneService.findAll(pageable));
+		return "phoneList";
+	}
 	
 	@GetMapping(value = "phoneNewForm.html")
 	public String phoneNewForm(@RequestParam("id") String id,Model model) {
@@ -191,7 +212,7 @@ public class UserController {
 		User u = userService.findById(id);
 		Phone p = phoneService.findById(seq);//이게문제
 		u.removePhone(p);
-		userService.save(u);//캐시갱신용(collection쪽에서 갱신이 일어나야 캐시도 갱신됨)
+//		userService.save(u);//캐시갱신용(collection쪽에서 갱신이 일어나야 캐시도 갱신됨)
 		phoneService.delete(p);
 		return "redirect:oneUser.html?id="+u.getId();
 		

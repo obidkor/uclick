@@ -27,15 +27,15 @@
 </tr>
 <c:choose>
 	<c:when test="${search==1}">
-		<c:forEach items="${phones}" var="e">
+		<c:forEach items="${users.content}" var="e">
 		<tr>
 			<form method="post">
-			<input type="hidden" name="id" value="${e.user.id}">
-			<td><a href="oneUser.html?id=${e.user.id}">${e.user.id}</a></td>
-			<td>${e.user.name}</td>
-			<td>${e.user.enrollDate}</td>
+			<input type="hidden" name="id" value="${e.id}">
+			<td><a href="oneUser.html?id=${e.id}">${e.id}</a></td>
+			<td>${e.name}</td>
+			<td>${e.enrollDate}</td>
 			<td><input type="submit" formaction="userEditForm.html" value="update this user"></td>
-			<td><input type=button  value="delete" onClick="location.href='userDelete.html?id=${e.user.id}'"></td>
+			<td><input type=button  value="delete" onClick="location.href='userDelete.html?id=${e.id}'"></td>
 			</form>	
 		</tr>
 		</c:forEach>
@@ -56,13 +56,21 @@
 	</c:otherwise>
 </c:choose>
 </table>
-<c:if test="${search!=1}">
-	<button type="button" onclick="location.href='./${page-2}'">&lt;</button>
+	<c:if test="${!users.isFirst()}">
+		<button type="button" onclick="location.href='./${page-2}'">&lt;</button>
+	</c:if>
 	<c:forEach begin="${startRange }" end="${endRange }" var="e">
          <button type="button" onclick="location.href='./${e-1 }'">${e }</button>
     </c:forEach>
-    <button type="button" onclick="location.href='./${page }'">&gt;</button>
-</c:if>
+    <c:if test="${!users.isLast()}">
+    <button type="button" onclick="location.href='./${page}'">&gt;</button>
+    </c:if>
 <input type="button" value="사용자 추가" onclick="location.href='userNewForm.html'">
+현재페이지 : ${page}
+시작페이지 : ${startRange}
+끝페이이지 : ${endRange}
+
+<hr>
+<a href="/">전체사용자 리스트</a> <a href="/phoneList.html/0">전화기 리스트</a>
 </body>
 </html>

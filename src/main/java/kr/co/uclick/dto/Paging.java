@@ -50,7 +50,9 @@ public class Paging {
 	public void calcPage() {
 
 		totalPage = totalCount / countList;// 토탈 페이지 수
-		
+		this.startPage = ((pagenow - 1) / countPage) * countPage + 1;// 스타트페이지
+		this.endPage = startPage + countPage - 1;// 엔드페이지
+
 		if(pagenow<0) {
 			pagenow=1;
 		}

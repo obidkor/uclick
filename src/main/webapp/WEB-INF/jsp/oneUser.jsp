@@ -57,5 +57,7 @@
 </c:choose>
 </table>
 <input type="button" value="add phone belong to this user" onclick="location.href='phoneNewForm.html?id=${user.getId()}'">
+<hr>
+<a href="/">전체사용자 리스트</a> <a href="/phoneList.html/0">전화기 리스트</a>
 </body>
 </html>

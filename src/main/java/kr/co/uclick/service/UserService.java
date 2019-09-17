@@ -50,6 +50,16 @@ public class UserService {
 		Predicate predicate = u.name.like("%"+name+"%");
 		return userRepository.findAll(predicate, pageable);
 	}
+	
+	@Transactional(readOnly = true)
+	public Page<User> findUserByNumber(String number,Pageable pageable) {
+		logger.debug("findUserByNumber() : {}, {}", pageable.getPageSize(), number);
+		if(number==null) {
+			number="";
+		}
+		return userRepository.findDistinctIdByPhoneNumberContaining(number, pageable);
+	}
+	
 	@Transactional(readOnly = true)
 	public User findById(Long id) {
 		logger.debug("findById() : {}, {}", id, 1);
@@ -89,7 +99,9 @@ public class UserService {
 	@Transactional(readOnly=true)
 	public List<User> findAll(){
 		logger.debug("findAll() : {}, {}","","");
-		return userRepository.findAll();
+		List<User> list = userRepository.findAll();
+		for(User u : list) Hibernate.initialize(u.getPhone());
+		return list;
 	}
 
 }

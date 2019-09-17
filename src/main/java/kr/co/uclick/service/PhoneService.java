@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,20 +27,21 @@ public class PhoneService {
 	
 	//querydsl
 	@Transactional(readOnly = true)
-	public List<Phone> findPhoneByNumber(String number) {
+	public Page<Phone> findPhoneByNumber(String number,Pageable pageable) {
 		logger.debug("findPhoneByNumber() : {}, {}", number, "");
 		if(number==null) {
 			number="";
 		}
 		Predicate predicate = p.number.like("%"+number+"%");
-		return (List<Phone>) phoneRepository.findAll(predicate);
+		return phoneRepository.findAll(predicate,pageable);
 	}
+
 	
 	@Transactional(readOnly=true)
-	public List<Phone> findAll(){
+	public Page<Phone> findAll(Pageable pageable){
 		logger.debug("findAll() : {}, {}", "", "");
 		Predicate predicate = null;
-		return (List<Phone>) phoneRepository.findAll(predicate);
+		return phoneRepository.findAll(predicate,pageable);
 	}
 	
 	
@@ -48,6 +51,20 @@ public class PhoneService {
 		return phoneRepository.findOne(predicate).get();
 	}
 	
+	public Long phoneCount() {
+		logger.debug("phoneCount() : {}, {}","","");
+		Predicate predicate = null;
+		return phoneRepository.count(predicate);
+	}
+	
+	public Long phoneCountByNumber(String number) {//distinct때문에 사용불가
+		logger.debug("phoneCountByName() : {}, {}",number,"");
+		if(number==null) {
+			number="";
+		}
+		Predicate predicate = p.number.like("%"+number+"%");
+		return phoneRepository.count(predicate);
+	}
 	
 	//jpa
 	public void delete(Phone p) {

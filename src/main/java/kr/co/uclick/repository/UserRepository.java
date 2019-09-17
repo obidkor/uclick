@@ -1,6 +1,7 @@
 package kr.co.uclick.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.QueryHint;
 
@@ -25,10 +26,12 @@ public interface UserRepository
 	
 	@QueryHints(value = {
             @QueryHint(name = "org.hibernate.cacheable", value = "true"),
-            @QueryHint(name = "org.hibernate.cacheMode", value = "NORMAL"),
+            @QueryHint(name = "org.hibernate.cacheMode", value = "REFRESH"),
             @QueryHint(name = "org.hibernate.cacheRegion", value = "User")
             })
 	public Page<User> findAll(Predicate predicate, Pageable pageable);
+	
+	
 	
 	
 	//jpa
@@ -38,6 +41,8 @@ public interface UserRepository
             @QueryHint(name = "org.hibernate.cacheRegion", value = "User")
             })
 	public List<User> findByNameLike(String name);
+	
+	public Page<User> findDistinctIdByPhoneNumberContaining(String number,Pageable pageable);
 	
 	public Page<User> findAll(Pageable pageable); 
 	public Page<User> findAllByOrderByIdDesc(Pageable pageable);

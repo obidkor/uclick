@@ -18,6 +18,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @SequenceGenerator(name = "USER_SEQ_GEN", // 시퀀스 제너레이터 이름
 		sequenceName = "USER_SEQ", // 시퀀스 이름
@@ -28,6 +31,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 // 참고 : https://dololak.tistory.com/479
 )
 @Table(name = "user")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User{
 	
