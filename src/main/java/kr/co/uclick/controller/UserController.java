@@ -52,41 +52,33 @@ public class UserController {
 	public String userList(@PathVariable("page") Integer page, 
 							@RequestParam HashMap<String,String> map, 
 							Model model) {
-		if(page==null||page<0) {
-	    	page=0;
+		if(map.get("search")==null) {
+	    	map.put("search", "");
 	    }
 		Paging p = new Paging();
 		p.setPagenow(page+1).setCountList(5);
 		
 		Pageable pageable = PageRequest.of(page, p.countList);
 		
-		//뽑혀야 할 전체 페이지버튼 수
-	    try {
+		//뽑혀야 할 전체 페이지버튼 수&list model
 		if(map.get("search").equals("2")) {
-	    	p.setTotalCount(userService.userCountByName(map.get("value")).intValue());
-	    }else if(map.get("search").equals("1")) {
-	    	p.setTotalCount(userService.findUserByNumber(map.get("value"), pageable).getTotalPages());
-	    }
-	    }catch(NullPointerException e) {
-	    	p.setTotalCount(userService.userCount().intValue());
-	    }
+			p.setTotalCount(userService.userCountByName(map.get("value")).intValue());
+			model.addAttribute("users", userService.findUserByName(map.get("value"),pageable));
+		}else if(map.get("search").equals("1")) {
+			p.setTotalCount(userService.findUserByNumber(map.get("value"), pageable).getTotalPages());
+			model.addAttribute("users", userService.findUserByNumber(map.get("value"), pageable));
+		}else if(map.get("search")=="") {
+			p.setTotalCount(userService.userCount().intValue());
+			model.addAttribute("users", userService.findAll(pageable));
+		}
 	    p.calcPage();
 		
 		model.addAttribute("startRange", p.startPage);
 		model.addAttribute("endRange", p.endPage);
 		model.addAttribute("page", p.pagenow);
-	      
-		try {
-		if(map.get("search").equals("2")) {	
-			model.addAttribute("search",map.get("search"));
-			model.addAttribute("users", userService.findUserByName(map.get("value"),pageable));
-		}else if(map.get("search").equals("1")) {
-			model.addAttribute("search",map.get("search"));
-			model.addAttribute("users", userService.findUserByNumber(map.get("value"), pageable));
-		}
-		}catch(NullPointerException e) {
-			model.addAttribute("users", userService.findAll(pageable));
-		}
+		model.addAttribute("search",map.get("search"));
+		model.addAttribute("value",map.get("value"));
+		
 		return "userList";
 	}
 	
@@ -139,23 +131,32 @@ public class UserController {
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	@GetMapping(value="phoneList.html/{page}")
-	public String phoneList(@PathVariable Integer page,Model model) {
+	@RequestMapping(value = "phoneList.html/{page}" ,method = {RequestMethod.GET, RequestMethod.POST})
+	public String phoneList(@PathVariable Integer page,
+							@RequestParam HashMap<String,String> map, 
+							Model model) {
 		if(page==null||page<0) {
 	    	page=0;
 	    }
 		Paging p = new Paging();
 		p.setPagenow(page+1).setCountList(5);
-		p.setTotalCount(phoneService.phoneCount().intValue());
+		Pageable pageable = PageRequest.of(page, p.countList);
+		
+		if(map.get("value")==null) {
+			p.setTotalCount(phoneService.phoneCount().intValue());
+			model.addAttribute("phones",phoneService.findAll(pageable));
+		}else {
+			p.setTotalCount(phoneService.phoneCountByNumber(map.get("value")).intValue());
+			model.addAttribute("phones",phoneService.findPhoneByNumber(map.get("value"), pageable));
+		}
+		
 		p.calcPage();
 		
 		model.addAttribute("startRange", p.startPage);
 		model.addAttribute("endRange", p.endPage);
 		model.addAttribute("page", p.pagenow);
+		model.addAttribute("value",map.get("value"));
 		
-		
-		Pageable pageable = PageRequest.of(page, p.countList);
-		model.addAttribute("phones",phoneService.findAll(pageable));
 		return "phoneList";
 	}
 	
@@ -212,7 +213,7 @@ public class UserController {
 		User u = userService.findById(id);
 		Phone p = phoneService.findById(seq);//이게문제
 		u.removePhone(p);
-//		userService.save(u);//캐시갱신용(collection쪽에서 갱신이 일어나야 캐시도 갱신됨)
+		userService.save(u);//캐시갱신용(collection쪽에서 갱신이 일어나야 캐시도 갱신됨)
 		phoneService.delete(p);
 		return "redirect:oneUser.html?id="+u.getId();
 		

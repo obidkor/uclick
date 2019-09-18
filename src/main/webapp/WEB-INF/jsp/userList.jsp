@@ -6,16 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/js/userList.css"/>" rel="stylesheets">
 </head>
 <body>
 <h1>전체 데이터</h1>
 <hr>
-<form method="post" action="/0">
-<select name="search">
+<form method="get" class="searchForm" action="/0">
+<select name="search" class="searchCombo">
     <option value="1">번호 검색</option>
     <option value="2">이름 검색</option>
 </select>
-<input type="text" name="value" placeholder="검색어 입력"><input type="submit" value="검색">
+<input type="text" autocomplete="off" class="searchBox" name="value" placeholder="검색어 입력"><input type="submit" value="검색">
+<div class="autoComplete" >
+<ul class="searchList">
+</ul>
+</div>
 </form>
 <table>
 <tr>
@@ -57,13 +62,13 @@
 </c:choose>
 </table>
 	<c:if test="${!users.isFirst()}">
-		<button type="button" onclick="location.href='./${page-2}'">&lt;</button>
+		<button type="button" onclick="location.href='./${page-2}?search=${search}&value=${value}'">&lt;</button>
 	</c:if>
 	<c:forEach begin="${startRange }" end="${endRange }" var="e">
-         <button type="button" onclick="location.href='./${e-1 }'">${e }</button>
+         <button type="button" onclick="location.href='./${e-1}?search=${search}&value=${value}'">${e }</button>
     </c:forEach>
     <c:if test="${!users.isLast()}">
-    <button type="button" onclick="location.href='./${page}'">&gt;</button>
+    <button type="button" onclick="location.href='./${page}?search=${search}&value=${value}'">&gt;</button>
     </c:if>
 <input type="button" value="사용자 추가" onclick="location.href='userNewForm.html'">
 현재페이지 : ${page}
@@ -72,5 +77,6 @@
 
 <hr>
 <a href="/">전체사용자 리스트</a> <a href="/phoneList.html/0">전화기 리스트</a>
+<script src="<c:url value="/resources/js/recentSearch.js"/>"></script>
 </body>
 </html>
