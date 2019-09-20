@@ -33,6 +33,6 @@ public class CustomPhysicalNamingStrategyStandardImpl extends PhysicalNamingStra
 				buf.insert(i++, '_');
 			}
 		}
-		return buf.toString().toLowerCase(Locale.ROOT);
+		return buf.toString().toLowerCase(Locale.ROOT);////
 	}
 }
