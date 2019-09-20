@@ -3,6 +3,7 @@ package kr.co.uclick.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,11 @@ public class PhoneService {
 			number="";
 		}
 		Predicate predicate = p.number.like("%"+number+"%");
-		return phoneRepository.findAll(predicate,pageable);
+		Page<Phone> list = phoneRepository.findAll(predicate,pageable);
+		for(int i=0; i<list.getSize();i++) {
+			Hibernate.initialize(list.getContent().get(i).getUser().getPhone());
+		}
+		return list;
 	}
 
 	

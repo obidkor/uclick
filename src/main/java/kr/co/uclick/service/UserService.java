@@ -48,7 +48,11 @@ public class UserService {
 			name="";
 		}
 		Predicate predicate = u.name.like("%"+name+"%");
-		return userRepository.findAll(predicate, pageable);
+		Page<User> list = userRepository.findAll(predicate, pageable);
+		for(int i=0; i<list.getSize();i++) {
+			Hibernate.initialize(list.getContent().get(i).getPhone());
+		}
+		return list;
 	}
 	
 	@Transactional(readOnly = true)

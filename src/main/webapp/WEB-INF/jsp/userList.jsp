@@ -4,20 +4,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="/resources/css/userList.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="<c:url value="/resources/js/userList.css"/>" rel="stylesheets">
 </head>
 <body>
-<h1>전체 데이터</h1>
+<h1>전체 데이터11111</h1>
 <hr>
-<form method="get" class="searchForm" action="/0">
+<form method="get" class="searchForm" action="/0" autocomplete="off">
 <select name="search" class="searchCombo">
     <option value="1">번호 검색</option>
     <option value="2">이름 검색</option>
 </select>
-<input type="text" autocomplete="off" class="searchBox" name="value" placeholder="검색어 입력"><input type="submit" value="검색">
+<div class="autocomplete" style="width:300px;">
+<input id="myInput" type="text" class="searchBox" name="value" placeholder="검색어 입력">
+</div>
+<input type="submit" value="검색">
 <div class="autoComplete" >
+최근검색어
 <ul class="searchList">
 </ul>
 </div>
@@ -77,6 +81,7 @@
 
 <hr>
 <a href="/">전체사용자 리스트</a> <a href="/phoneList.html/0">전화기 리스트</a>
-<script src="<c:url value="/resources/js/recentSearch.js"/>"></script>
+<script src="<c:url value="/resources/js/autocomplete.js"/>"></script>
+<%-- <script src="<c:url value="/resources/js/recentSearch.js"/>"></script> --%>
 </body>
 </html>

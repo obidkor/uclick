@@ -126,7 +126,7 @@ public class SpringConfiguration {
 //		properties.setProperty("hibernate.cache.use_second_level_cache", "true");//secondlevel cache enable
 //		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory"); //캐시구현제 지정
 //		properties.setProperty("spring.jpa.properties.hibernate.cache.use_query_cache", "true");// query cache enable
-//		properties.setProperty("spring.jpa.properties.javax.persistence.sharedCache.mode", "ALL");
+//		properties.setProperty("spring.jpa.properties.javax.persistence.sharedCache.mode	", "ALL");
 //		properties.setProperty("hibernate.cache.region_prefix", "");
 		return properties;
 	}
