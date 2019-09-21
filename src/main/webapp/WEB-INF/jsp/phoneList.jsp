@@ -4,11 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="/resources/css/userList.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+<div id="title">
 <h1>Phone List</h1>
+</div>
 <hr>
 <form method="get" action="/phoneList.html/0">
 <input type="text" name="value" placeholder="핸드폰 번호 입력"><input type="submit" value="검색">
@@ -30,6 +33,7 @@
 </c:otherwise>
 </c:choose>
 </table>
+<div id="page">
 	<c:if test="${!phones.isFirst()}">
 		<button type="button" onclick="location.href='./${page-2}?value=${value}'">&lt;</button>
 	</c:if>
@@ -39,7 +43,11 @@
     <c:if test="${!phones.isLast()}">
     <button type="button" onclick="location.href='./${page}?value=${value}'">&gt;</button>
     </c:if>
+</div>
+
 <hr>
+<div id="tail">
 <a href="/">전체사용자 리스트</a>   <a href="/phoneList.html/0">전화기 리스트</a>
+</div>
 </body>
 </html>

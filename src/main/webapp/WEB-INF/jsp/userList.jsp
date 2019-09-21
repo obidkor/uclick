@@ -9,7 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div id="title">
 <h1>전체 데이터11111</h1>
+</div>
 <hr>
 <form method="get" class="searchForm" action="/0" autocomplete="off">
 <select name="search" class="searchCombo">
@@ -20,12 +22,8 @@
 <input id="myInput" type="text" class="searchBox" name="value" placeholder="검색어 입력">
 </div>
 <input type="submit" value="검색">
-<div class="autoComplete" >
-최근검색어
-<ul class="searchList">
-</ul>
-</div>
 </form>
+<div class="searchList">최근검색어 : </div>
 <table>
 <tr>
 	<td><p align=center>id</p></td>
@@ -64,7 +62,9 @@
 		</c:forEach>
 	</c:otherwise>
 </c:choose>
+
 </table>
+ <div id="page">
 	<c:if test="${!users.isFirst()}">
 		<button type="button" onclick="location.href='./${page-2}?search=${search}&value=${value}'">&lt;</button>
 	</c:if>
@@ -74,14 +74,15 @@
     <c:if test="${!users.isLast()}">
     <button type="button" onclick="location.href='./${page}?search=${search}&value=${value}'">&gt;</button>
     </c:if>
-<input type="button" value="사용자 추가" onclick="location.href='userNewForm.html'">
-현재페이지 : ${page}
-시작페이지 : ${startRange}
-끝페이이지 : ${endRange}
 
+<button type="button" style="float:right "onclick="location.href='userNewForm.html'">사용자추가</button>
+</div>
 <hr>
+<div id="tail">
 <a href="/">전체사용자 리스트</a> <a href="/phoneList.html/0">전화기 리스트</a>
+</div>
 <script src="<c:url value="/resources/js/autocomplete.js"/>"></script>
-<%-- <script src="<c:url value="/resources/js/recentSearch.js"/>"></script> --%>
+<script src="<c:url value="/resources/js/multisearch.js"/>"></script>
+<script src="<c:url value="/resources/js/recentSearch.js"/>"></script>
 </body>
 </html>

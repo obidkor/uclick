@@ -1,5 +1,6 @@
 package kr.co.uclick.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -168,12 +169,20 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "phoneSave.html")
-	public String phoneSave(Long id,String number,Model model) {	
+	public String phoneSave(Long id,
+			@RequestParam(name="number") List<String> numbers,Model model) {	
 		
 		User user = null;
+		logger.debug("numbers : " +numbers.size());
 		try {
 			user = userService.findById(id);
-			user.addPhone(new Phone(number));
+			try {
+				for(String number:numbers) {
+					user.addPhone(new Phone(number));
+				}
+			}catch(NullPointerException e) {
+				return "redirect:oneUser.html?id="+user.getId();
+			}
 			userService.save(user);
 		}catch(DataIntegrityViolationException e) {
 			model.addAttribute("error",e);
@@ -191,14 +200,14 @@ public class UserController {
 	@PostMapping(value = "phoneUpdate.html")
 	public String phonePupdate(Phone phone, Model model) {
 		try {
-		String number = phone.getNumber();
-		phone = phoneService.findById(phone.getSeq());
-		phone.setNumber(number);
-		phoneService.save(phone);
-		}catch(DataIntegrityViolationException e) {
-			model.addAttribute("error",e);
-			return "error";
-		}
+			String number = phone.getNumber();
+			phone = phoneService.findById(phone.getSeq());
+			phone.setNumber(number);
+			phoneService.save(phone);
+			}catch(DataIntegrityViolationException e) {
+				model.addAttribute("error",e);
+				return "error";
+			}
 		return "redirect:oneUser.html?id="+phoneService.findById(phone.getSeq()).getUser().getId();
 	}
 	
@@ -217,6 +226,27 @@ public class UserController {
 		phoneService.delete(p);
 		return "redirect:oneUser.html?id="+u.getId();
 		
+	}
+	
+	@GetMapping(value = "multiList.html")
+	public String multiView(@RequestParam HashMap<String,String> map,Model model) 
+	{
+		String[] list = map.get("value").split(",");
+		
+		if(map.get("search").equals("1")) {
+			List<Phone> phones = new ArrayList<Phone>();
+			for(int i=0;i<list.length;i++) {
+				phones.add(phoneService.findPhoneByNumber2(list[i].trim()));
+			}
+			model.addAttribute("phones", phones);
+		}else if(map.get("search").equals("2")) {
+			List<User> users = new ArrayList<User>();
+			for(int i=0;i<list.length;i++) {
+				users.add(userService.findUserByName2(list[i].trim()));
+			}
+			model.addAttribute("users", users);
+		}
+		return "multiList";	
 	}
 	
 }

@@ -4,15 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="/resources/css/NewFile.css" rel="stylesheet">
+<link href="/resources/css/userList.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-
-</style>
 </head>
 <body>
-<h1 class="a">New User</h1>
+<div id="title">
+<h1>New User</h1>
+</div>
+<hr>
 <form class="userSaveForm" method="post" action="userSave.html">
 <Table>
 <tr>
@@ -21,9 +21,10 @@
 </Table>
 <hr>
 <h2>전화번호</h2>
-<ul class="phoneList"> 
-</ul>
-<input type="button" class="submitBtn"value="enroll">
+<table class="phoneList">
+</table>
+<button type="button" class="addBtn">전화기 추가</button>
+<input type="button" class="submitBtn" value="enroll">
 </form>
 <script src="<c:url value="/resources/js/userNewForm.js"/>"></script>
 </body>

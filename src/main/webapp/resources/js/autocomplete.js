@@ -67,9 +67,9 @@ function getList(event){
 const optValue=check();
 var url;
 if(optValue==1){
-  url = 'http://localhost:8085/sendNumberLike?number='
+  url = 'http://localhost:8081/sendNumberLike?number='
 }else{
-  url = 'http://localhost:8085/sendNameLike?name='
+  url = 'http://localhost:8081/sendNameLike?name='
 }
 fetch(
   url+input.value

@@ -52,7 +52,7 @@ public class JSONController {
 	    return map;
 	}
 	
-	@CrossOrigin(origins = "http://127.0.0.1:5500")
+//	@CrossOrigin(origins = "http://localhost:8081")
 	@GetMapping("sendNameLike")
 	public Map<Integer, User> sendNameLike(String name) {
 	    Map<Integer, User> map = new HashMap<>();
@@ -69,7 +69,7 @@ public class JSONController {
 	}
 	
 	
-	@CrossOrigin(origins = "http://127.0.0.1:5500")
+//	@CrossOrigin(origins = "http://localhost:8081")
 	@GetMapping("sendNumberLike")
 	public Map<Integer, Phone> sendNumberLike(String number) {
 	    Map<Integer, Phone> map = new HashMap<>();

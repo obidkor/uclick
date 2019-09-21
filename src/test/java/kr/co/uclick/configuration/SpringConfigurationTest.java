@@ -15,6 +15,7 @@ import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.internal.util.typedef.internal.U;
 import org.apache.ignite.logger.slf4j.Slf4jLogger;
+import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -68,12 +69,9 @@ public class SpringConfigurationTest {
 	
 	@Test//테스트메소드임을 지정
     public void test1() {
-		for(int i=0;i<10000;i++) {
-		User u = new User("김기윤"+i);
-		u.addPhone(new Phone("번"+i));
-		u.addPhone(new Phone("호"+i));
-		userService.save(u);
-		}
+		User u = userService.findById(100L);
+		u.addPhone(new Phone("010102929"));
+		
         }
 
 }

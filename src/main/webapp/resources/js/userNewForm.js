@@ -1,11 +1,12 @@
 const saveForm = document.querySelector(".userSaveForm");
 const submitBtn = document.querySelector(".submitBtn");
 const phoneList = document.querySelector(".phoneList");
+const addBtn = document.querySelector(".addBtn");
 
 
 function deleteForm(event){
   const btn = event.target;
-  const li = btn.parentNode;
+  const li = btn.parentNode.parentNode;
   phoneList.removeChild(li); 
 } 
 
@@ -13,14 +14,19 @@ function addForm(){
 	const input = document.createElement("input");
 	const delBtn =document.createElement("button");
 	delBtn.type="button";
-	const li =document.createElement("li");
+	const tr =document.createElement("tr");
+	const td =document.createElement("td");
+	const inputTd = document.createElement("td");
 	delBtn.innerText = "추가 취소";
+	td.innerText = "number";
 	input.type = "text";
 	input.classname = "phone";
 	input.name = "number"; 
-	phoneList.appendChild(li);
-	li.appendChild(input);
-	li.appendChild(delBtn);
+	phoneList.appendChild(tr);
+	tr.appendChild(td);
+	tr.appendChild(inputTd);
+	inputTd.appendChild(input);
+	inputTd.appendChild(delBtn);
 	delBtn.addEventListener("click", deleteForm);
   
 }
@@ -30,12 +36,6 @@ function handleSubmit(){
 }
 
 function loadAddBtn(){
-	const addBtn = document.createElement("button");
-	const li =document.createElement("li");
-	addBtn.innerText = "전화기 추가";
-	addBtn.type="button"
-	phoneList.appendChild(li);
-	li.appendChild(addBtn);
 	addBtn.addEventListener("click", addForm);
 }
 

@@ -16,11 +16,16 @@ import com.querydsl.core.types.Predicate;
 
 import kr.co.uclick.entity.Phone;
 import kr.co.uclick.entity.QPhone;
+import kr.co.uclick.entity.User;
 import kr.co.uclick.repository.PhoneRepository;
+import kr.co.uclick.repository.UserRepository;
 
 @Service
 public class PhoneService {
 
+	@Autowired
+	private UserRepository userRepository;
+	
 	@Autowired
 	private PhoneRepository phoneRepository;
 	private QPhone p = QPhone.phone;
@@ -39,6 +44,18 @@ public class PhoneService {
 			Hibernate.initialize(list.getContent().get(i).getUser().getPhone());
 		}
 		return list;
+	}
+	
+	@Transactional(readOnly = true)
+	public Phone findPhoneByNumber2(String number) {
+		logger.debug("findPhoneByNumber() : {}, {}", number, "");
+		if(number==null) {
+			number="";
+		}
+		Predicate predicate = p.number.like(number);
+		Phone p = phoneRepository.findOne(predicate).get();
+		Hibernate.initialize(p.getUser().getPhone());
+		return p;
 	}
 
 	
@@ -83,6 +100,9 @@ public class PhoneService {
 		logger.debug("save() : {}, {}", phone.getNumber(), "");
 		phoneRepository.save(phone);
 	}
+
+	
+
 
 
 

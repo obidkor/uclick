@@ -14,6 +14,9 @@ body {
   position: relative;
   display: inline-block;
 }
+.searchForm{
+	float:right;
+}
 input {
   border: 1px solid transparent;
   background-color: #f1f1f1;
@@ -25,6 +28,17 @@ input[type=text] {
   width: 100%;
 }
 input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+}
+button{
+  border: 1px solid transparent;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  color: DodgerBlue;
+}
+button:hover{
   background-color: DodgerBlue;
   color: #fff;
 }
@@ -54,3 +68,26 @@ input[type=submit] {
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
+
+  table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  
+  select {
+	padding: .5em .5em;
+	border: 1px solid #999;
+	font-family: inherit;
+	border-radius: 0px;
+	appearance: none;
+}
+#title,#page,#tail{
+	text-align : center;
+}
+
+

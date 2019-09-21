@@ -4,14 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="/resources/css/userList.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+<div id="title">
+<h1>oneview</h1>
+</div>
+<hr>
+<h2>User Inform</h2>
 <table>
 <tr>
-<h1>oneview!</h1>
-<hr>
 <td>id</td>
 <td>name</td>
 <td>date</td>
@@ -58,6 +62,8 @@
 </table>
 <input type="button" value="add phone belong to this user" onclick="location.href='phoneNewForm.html?id=${user.getId()}'">
 <hr>
+<div id="tail">
 <a href="/">전체사용자 리스트</a> <a href="/phoneList.html/0">전화기 리스트</a>
+</div>
 </body>
 </html>

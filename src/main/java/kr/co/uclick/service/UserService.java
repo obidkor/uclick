@@ -56,6 +56,18 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
+	public User findUserByName2(String name) {
+		logger.debug("findUserByName2() : {}, {}","" , name);
+		if(name==null) {
+			name="";
+		}
+		Predicate predicate = u.name.like(name);
+		User u = userRepository.findOne(predicate).get();
+		Hibernate.initialize(u.getPhone());
+		return u;
+	}
+	
+	@Transactional(readOnly = true)
 	public Page<User> findUserByNumber(String number,Pageable pageable) {
 		logger.debug("findUserByNumber() : {}, {}", pageable.getPageSize(), number);
 		if(number==null) {

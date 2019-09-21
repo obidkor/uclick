@@ -4,11 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="/resources/css/userList.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+<div id="title">
 <h1>New User</h1>
+</div>
 <Table>
 <form method="post" action="userSave.html">
 <tr>
