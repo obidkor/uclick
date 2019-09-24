@@ -26,17 +26,21 @@ function autoSearch(arr){
     /*append the DIV element as a child of the autocomplete container:*/
     document.getElementById("myInput").parentNode.appendChild(a);
     /*for each item in the array...*/
+    
     for (i = 0; i < arr.length; i++) {
       /*check if the item starts with the same letters as the text field value:*/
-      if (arr[i].toUpperCase().includes(val.toUpperCase())) {
+      if (arr[i].substr(arr[i].search(new RegExp(val,"i")), val.length).toUpperCase() == val.toUpperCase()){
         /*create a DIV element for each matching element:*/
         b = document.createElement("DIV");
+        
+        
         /*make the matching letters bold:*/
-        b.innerHTML = arr[i].substr(0,arr[i].indexOf(val));
-        b.innerHTML += "<strong>" + arr[i].substr(arr[i].indexOf(val), val.length) + "</strong>";
-        if(arr[i].indexOf(val)+val.length!==arr[i].length){
-        b.innerHTML += arr[i].substr(val.length,arr[i].length);
-      }
+        b.innerHTML = arr[i].substr(0,arr[i].search(new RegExp(val,"i")));
+        b.innerHTML += "<strong>" + arr[i].substr(arr[i].search(new RegExp(val,"i")), val.length) + "</strong>";
+        b.innerHTML += arr[i].substr(arr[i].search(new RegExp(val,"i"))+val.length,arr[i].length);
+      
+        
+        
         /*insert a input field that will hold the current array item's value:*/
         b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
         // b.tagName="input";
@@ -62,14 +66,14 @@ function check(){
   }
 }
 
+
 function getList(event){
-  Lists=[];
 const optValue=check();
 var url;
 if(optValue==1){
-  url = 'http://localhost:8081/sendNumberLike?number='
+  url = 'http://localhost:8085/sendNumberLike?number='
 }else{
-  url = 'http://localhost:8081/sendNameLike?name='
+  url = 'http://localhost:8085/sendNameLike?name='
 }
 fetch(
   url+input.value
@@ -78,6 +82,7 @@ fetch(
   return response.json();
 })
 .then(function(myJson) {
+	Lists=[];
   for(var i in myJson){
     if(optValue==1){
       Lists.push(myJson[i].number);

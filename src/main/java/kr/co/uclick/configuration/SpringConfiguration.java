@@ -48,10 +48,10 @@ public class SpringConfiguration {
 	@Primary//@Primary로 같은 우선순위로 있는 클래스가 여러개가 있을 시 그 중 가장 우선순위로 주입할 클래스 타입을 선택(빈객체 생성과정에서 의존관계 문제해결)
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-//		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//		dataSource.setUrl("jdbc:mysql://192.168.56.102:3306/uclick");
-		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-		dataSource.setUrl("jdbc:mariadb://104.198.127.222:3306/uclick");
+		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://192.168.56.102:3306/uclick");
+//		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
+//		dataSource.setUrl("jdbc:mariadb://104.198.127.222:3306/uclick");
 		dataSource.setUsername("root");
 		dataSource.setPassword("rlarldbs21");
 		return dataSource;
@@ -126,7 +126,7 @@ public class SpringConfiguration {
 //		properties.setProperty("hibernate.cache.use_second_level_cache", "true");//secondlevel cache enable
 //		properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory"); //캐시구현제 지정
 //		properties.setProperty("spring.jpa.properties.hibernate.cache.use_query_cache", "true");// query cache enable
-//		properties.setProperty("spring.jpa.properties.javax.persistence.sharedCache.mode	", "ALL");
+//		properties.setProperty("spring.jpa.properties.javax.persistence.sharedCache.mode	", "ALL"); //캐시 전략 통일
 //		properties.setProperty("hibernate.cache.region_prefix", "");
 		return properties;
 	}

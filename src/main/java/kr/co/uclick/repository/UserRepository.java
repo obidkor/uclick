@@ -26,33 +26,20 @@ public interface UserRepository
 	
 	@QueryHints(value = {
             @QueryHint(name = "org.hibernate.cacheable", value = "true"),
-            @QueryHint(name = "org.hibernate.cacheMode", value = "REFRESH"),
+            @QueryHint(name = "org.hibernate.cacheMode", value = "NORMAL"),
             @QueryHint(name = "org.hibernate.cacheRegion", value = "User")
             })
 	public Page<User> findAll(Predicate predicate, Pageable pageable);
-	
-	
-	
-	
+		
 	//jpa
 	@QueryHints(value = {
             @QueryHint(name = "org.hibernate.cacheable", value = "true"),
             @QueryHint(name = "org.hibernate.cacheMode", value = "NORMAL"),
             @QueryHint(name = "org.hibernate.cacheRegion", value = "User")
             })
-	public List<User> findByNameLike(String name);
-	
 	public Page<User> findDistinctIdByPhoneNumberContaining(String number,Pageable pageable);
 	
-	public Page<User> findAll(Pageable pageable); 
-	public Page<User> findAllByOrderByIdDesc(Pageable pageable);
 	
-	@QueryHints(value = {
-            @QueryHint(name = "org.hibernate.cacheable", value = "true"),
-            @QueryHint(name = "org.hibernate.cacheMode", value = "NORMAL"),
-            @QueryHint(name = "org.hibernate.cacheRegion", value = "User")
-            })
-	public Page<User> findByNameLike(String name,Pageable pageable);
 
 
 	

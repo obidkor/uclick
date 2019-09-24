@@ -9,6 +9,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
+
 //https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/WebApplicationInitializer.html
 //Here is the equivalent DispatcherServlet registration logic(web.xml), WebApplicationInitializer-style:
 public class MyWebApplicationInitializer implements WebApplicationInitializer {
@@ -16,6 +17,8 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext servletCxt) {
 
+		
+		
 		// Create the 'root' Spring application context : rootcontext를 springconfiguration으로 대체
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(SpringConfiguration.class);

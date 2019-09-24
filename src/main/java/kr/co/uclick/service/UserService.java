@@ -34,14 +34,14 @@ public class UserService {
 	
 	//querydsl 사용 
 	@Transactional(readOnly=true)
-	public Page<User> findAll(Pageable pageable){
+	public Page<User> findAll(Pageable pageable){//Allview 리스트용
 		logger.debug("findAll(Pageable pageable) : {}, {}", pageable.getPageSize(), pageable.first());
 		Predicate predicate = null; 
 		return userRepository.findAll(predicate,pageable);
 		 
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true)//이름 like검색용
 	public Page<User> findUserByName(String name,Pageable pageable) {
 		logger.debug("findUserByName() : {}, {}", pageable.getPageSize(), name);
 		if(name==null) {
@@ -49,13 +49,10 @@ public class UserService {
 		}
 		Predicate predicate = u.name.like("%"+name+"%");
 		Page<User> list = userRepository.findAll(predicate, pageable);
-		for(int i=0; i<list.getSize();i++) {
-			Hibernate.initialize(list.getContent().get(i).getPhone());
-		}
 		return list;
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true)//멀티서치용
 	public User findUserByName2(String name) {
 		logger.debug("findUserByName2() : {}, {}","" , name);
 		if(name==null) {
@@ -67,7 +64,22 @@ public class UserService {
 		return u;
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true)//restcontroller용
+	public List<User> findUserByNameForRest(String name) {
+		logger.debug("findUserByName2() : {}, {}","" , name);
+		if(name==null) {
+			name="";
+		}
+		Predicate predicate = u.name.like("%"+name+"%");
+		List<User> u = (List<User>) userRepository.findAll(predicate);
+		for(User user:u) {
+			Hibernate.initialize(user.getPhone());
+		}
+		return u;
+	}
+	
+
+	@Transactional(readOnly = true)//번호로 사용자 검색용
 	public Page<User> findUserByNumber(String number,Pageable pageable) {
 		logger.debug("findUserByNumber() : {}, {}", pageable.getPageSize(), number);
 		if(number==null) {
@@ -77,7 +89,7 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public User findById(Long id) {
+	public User findById(Long id) {//id로 찾기
 		logger.debug("findById() : {}, {}", id, 1);
 		Predicate predicate = u.id.eq(id);
 		User user = userRepository.findOne(predicate).get();
@@ -85,13 +97,13 @@ public class UserService {
 		return user;
 	}
 	
-	public Long userCount() {
+	public Long userCount() {//사용자 전체리스트 페이지네이션용
 		logger.debug("userCount() : {}, {}","","");
 		Predicate predicate = null;
 		return userRepository.count(predicate);
 	}
 	
-	public Long userCountByName(String name) {
+	public Long userCountByName(String name) {//사용자 이름 검색 페이지네이션용
 		logger.debug("userCountByName() : {}, {}",name,"");
 		if(name==null) {
 			name="";
@@ -113,7 +125,7 @@ public class UserService {
 	
 	
 	@Transactional(readOnly=true)
-	public List<User> findAll(){
+	public List<User> findAll(){//restcontroller 테스트용
 		logger.debug("findAll() : {}, {}","","");
 		List<User> list = userRepository.findAll();
 		for(User u : list) Hibernate.initialize(u.getPhone());

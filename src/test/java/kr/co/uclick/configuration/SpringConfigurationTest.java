@@ -1,42 +1,43 @@
 package kr.co.uclick.configuration;
 
-import static org.junit.Assert.assertEquals;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteLogger;
-import org.apache.ignite.Ignition;
-import org.apache.ignite.configuration.CacheConfiguration;
-import org.apache.ignite.configuration.IgniteConfiguration;
-import org.apache.ignite.internal.util.typedef.internal.U;
-import org.apache.ignite.logger.slf4j.Slf4jLogger;
-import org.hibernate.Hibernate;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
+//import static org.junit.Assert.assertEquals;
+//
+//import java.sql.Timestamp;
+//import java.util.ArrayList;
+//import java.util.Calendar;
+//import java.util.List;
+//import java.util.Optional;
+//
+//import org.apache.ignite.Ignite;
+//import org.apache.ignite.IgniteLogger;
+//import org.apache.ignite.Ignition;
+//import org.apache.ignite.configuration.CacheConfiguration;
+//import org.apache.ignite.configuration.IgniteConfiguration;
+//import org.apache.ignite.internal.util.typedef.internal.U;
+//import org.apache.ignite.logger.slf4j.Slf4jLogger;
+//import org.hibernate.Hibernate;
+//import org.junit.After;
+//import org.junit.Before;
+//import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.data.domain.Page;
+//import org.springframework.data.domain.PageRequest;
+//import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.querydsl.core.types.Predicate;
-
-import kr.co.uclick.entity.Phone;
+//import org.springframework.transaction.annotation.Transactional;
+//
+//import com.querydsl.core.types.Predicate;
+//
+//import kr.co.uclick.entity.Phone;
+//
+//import kr.co.uclick.entity.Sample;
+//import kr.co.uclick.entity.User;
 import kr.co.uclick.entity.QPhone;
 import kr.co.uclick.entity.QUser;
-import kr.co.uclick.entity.Sample;
-import kr.co.uclick.entity.User;
 import kr.co.uclick.repository.PhoneRepository;
 import kr.co.uclick.repository.UserRepository;
 import kr.co.uclick.service.PhoneService;
@@ -66,16 +67,13 @@ public class SpringConfigurationTest {
 	private final QPhone p = QPhone.phone;
 	
 
-	
 	@Test//테스트메소드임을 지정
     public void test1() {
-		User u = userService.findById(100L);
-		u.addPhone(new Phone("010102929"));
 		
-        }
+    }
 
 }
-//	참고 : http://www.nextree.co.kr/p11104/
+
 //	https://jdm.kr/blog/141
 //
 //	delete 하는법!

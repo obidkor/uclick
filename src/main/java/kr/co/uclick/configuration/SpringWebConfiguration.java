@@ -44,11 +44,6 @@ public class SpringWebConfiguration implements WebMvcConfigurer {
 		//ignoreAcceptHeader (false)가 기본값 인 경우 XML
 	}
 	
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//        argumentResolvers.add( new PageableHandlerMethodArgumentResolver());
-//    }
-//	
 	//특정url진입시 로그인 검사 / 토큰검사 / 계정권한에 다라 접근막아야할때
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -86,7 +81,9 @@ public class SpringWebConfiguration implements WebMvcConfigurer {
 		internalResourceViewResolver.setSuffix(".jsp");
 		return internalResourceViewResolver;
 	}
+
 	
+	//만약 js,css등 리소스 폴더를 못찾을 경우
 //	@Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry

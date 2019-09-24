@@ -32,15 +32,16 @@ import kr.co.uclick.service.PhoneService;
 import kr.co.uclick.service.SampleService;
 import kr.co.uclick.service.UserService;
 
+//controller는 httprequest를 받아 view resovler 를 통해 httpresponse body로 리턴
 @Controller
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired//service autowire
+	@Autowired//service 의존성 주입
 	private UserService userService;
 	
-	@Autowired
+	@Autowired//service 의존성 주입
 	private PhoneService phoneService;
 	
 	@RequestMapping(value = "/")
@@ -58,7 +59,6 @@ public class UserController {
 	    }
 		Paging p = new Paging();
 		p.setPagenow(page+1).setCountList(5);
-		
 		Pageable pageable = PageRequest.of(page, p.countList);
 		
 		//뽑혀야 할 전체 페이지버튼 수&list model
@@ -104,13 +104,15 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "userSave.html")
-	public String userSave(User user,@RequestParam(name="number",required=false) List<String> numbers, Model model) {
+	public String userSave(User user,@RequestParam(name="number",required=false) 
+											List<String> numbers, Model model) {
 		try {
 			try {
 				for(String number:numbers) {
 					user.addPhone(new Phone(number));
 				}
 			}catch(NullPointerException e) {
+				userService.save(user);
 				return "redirect:/0";
 			}
 			userService.save(user);
@@ -120,7 +122,8 @@ public class UserController {
 		}
 		return "redirect:/0";
 	}
-
+	
+	
 	@RequestMapping(value = "userDelete.html")// 사용자 삭제
 	public String userDelete(Model model,@RequestParam HashMap<String,String> map) {
 		String sid = map.get("id");
@@ -228,6 +231,7 @@ public class UserController {
 		
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////
 	@GetMapping(value = "multiList.html")
 	public String multiView(@RequestParam HashMap<String,String> map,Model model) 
 	{
@@ -249,4 +253,8 @@ public class UserController {
 		return "multiList";	
 	}
 	
+//	@RequestMapping(value="login")
+//	public String login(Model model) {
+//		return "login";
+//	}
 }

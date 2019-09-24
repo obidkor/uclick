@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="title">
-<h1>전체 데이터11111</h1>
+<h1>전체 데이터</h1>
 </div>
 <hr>
 <form method="get" class="searchForm" action="/0" autocomplete="off">
@@ -81,8 +81,11 @@
 <div id="tail">
 <a href="/">전체사용자 리스트</a> <a href="/phoneList.html/0">전화기 리스트</a>
 </div>
+<span class="clock"><h4>00:00</h4></span><span class="weather" style="float:right"></span>
 <script src="<c:url value="/resources/js/autocomplete.js"/>"></script>
 <script src="<c:url value="/resources/js/multisearch.js"/>"></script>
 <script src="<c:url value="/resources/js/recentSearch.js"/>"></script>
+<script src="<c:url value="/resources/js/weather.js"/>"></script>
+<script src="<c:url value="/resources/js/clock.js"/>"></script>
 </body>
 </html>
