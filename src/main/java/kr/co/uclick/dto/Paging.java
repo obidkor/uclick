@@ -40,11 +40,11 @@ public class Paging {
 
 	public Paging setCountList(int countList) {
 		this.countList = countList;
-		return this;
+		return this;//chaining
 	}
 	public Paging setTotalPage() {
 		this.totalPage = totalCount/countList;
-		return this;
+		return this;//chaining
 	}
 	
 	public void calcPage() {
@@ -54,7 +54,7 @@ public class Paging {
 		this.endPage = startPage + countPage - 1;// 엔드페이지
 
 		if(pagenow<0) {
-			pagenow=1;
+			pagenow=1; //페이지는 음수가 될 수 없다.
 		}
 		
 		if (totalCount % countList > 0) { // 전체 게시물을 한페이지의 게시물 수로 나누게 되면 전체 페이지가 나오는데

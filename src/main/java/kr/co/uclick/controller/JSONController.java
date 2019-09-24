@@ -61,7 +61,7 @@ public class JSONController {
 //	@CrossOrigin(origins = "http://serveraddress:port")//CORPS 승인
 	@GetMapping("sendNameLike") //이름 자동완성을 위한 api
 	public Map<Integer, User> sendNameLike(String name) {
-	    Map<Integer, User> map = new HashMap<>();
+	    Map<Integer, User> map = new HashMap<>();//반환될 map
 	    try {
 		    for (int i = 0; i < 5; i++) {//출력 리스트가 너무길면 안되니깐 5개로 제한 안됨
 		        List<User> list = userService.findUserByNameForRest(name);
@@ -73,7 +73,7 @@ public class JSONController {
 		    	map.put(i, list.get(i));
 		    }
 	    }catch(Exception e) {
-	    	logger.debug(e.toString());
+	    	logger.debug(e.toString());//버그 로그
 	    }
 	    return map;
 	}
@@ -81,7 +81,7 @@ public class JSONController {
 	
 	@GetMapping("sendNumberLike")//번호 자동완성을 위한 api
 	public Map<Integer, Phone> sendNumberLike(String number) {
-	    Map<Integer, Phone> map = new HashMap<>();
+	    Map<Integer, Phone> map = new HashMap<>();//반환될 map
 	    try {
 		    for (int i = 0; i < 5; i++) {//출력 리스트가 너무길면 안되니깐 5개로 제한 안됨
 		        List<Phone> list = phoneService.findPhoneByNumberForRest(number);

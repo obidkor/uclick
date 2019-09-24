@@ -23,14 +23,16 @@ public interface UserRepository
 		
 	
 	//Querydsl
-	
+	//queryhint docs : https://vladmihalcea.com/jpa-hibernate-query-hints/
+	//querycache 적용! customize the way a given query is executed by Hibernate// query를 하이버네이트를 통해서 쉽게 조작할 수 있다.
 	@QueryHints(value = {
-            @QueryHint(name = "org.hibernate.cacheable", value = "true"),
-            @QueryHint(name = "org.hibernate.cacheMode", value = "NORMAL"),
-            @QueryHint(name = "org.hibernate.cacheRegion", value = "User")
+            @QueryHint(name = "org.hibernate.cacheable", value = "true"),//Equivalent to setCacheable
+            @QueryHint(name = "org.hibernate.cacheMode", value = "NORMAL"), //Equivalent to setCacheMode 
+            @QueryHint(name = "org.hibernate.cacheRegion", value = "User") // Equivalent to setCacheRegion
             })
 	public Page<User> findAll(Predicate predicate, Pageable pageable);
-		
+	//이외 가능한 설정 	CALLABLE,COMMENT,FETCH_SIZE,FLUSH_MODE,FOLLOW_ON_LOCKING,NATIVE_LOCKMODE,
+	//PASS_DISTINCT_THROUGH,READ_ONLY,TIMEOUT_HIBERNATE,TIMEOUT_JPA
 	//jpa
 	@QueryHints(value = {
             @QueryHint(name = "org.hibernate.cacheable", value = "true"),
@@ -38,16 +40,7 @@ public interface UserRepository
             @QueryHint(name = "org.hibernate.cacheRegion", value = "User")
             })
 	public Page<User> findDistinctIdByPhoneNumberContaining(String number,Pageable pageable);
+	//distint를 통해서 user id가 겹치는 user 중복체크
 	
-	
-
-
-	
-	
-	//query cacge : https://kwonnam.pe.kr/wiki/java/hibernate/cache
-	//위의 어노테이션이안되면
-	//@Cacheable("user")를 넣을 것  //@CacheEvict(value="user", allEntries = true)
-	//	@QueryHints(value = {
-    //@QueryHint(name = "org.hibernate.cacheRegion", value = "user-by-name")})
 
 }

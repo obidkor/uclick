@@ -31,11 +31,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 // 참고 : https://dololak.tistory.com/479
 )
 @Table(name = "user")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
-@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE)
-public class User{
-	
-//	private static final long serialVersionUID = 1L;
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class) // 양방향으로 매핑된 엔티티들을 파싱할때 Infinite recursion							// 에러 방지
+@Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE) // cache region설정, cache starategy_readwrite
+public class User {
+//cachecouncurrenycy strategy : read_write : data가 update될 필요가 있을 경우 사용. 내장된 cacheprovider가 트랜잭션 locking을 보장 하지 않음
+// nonstrict_read_write : data가 update될 필요가 있을 경우 사용 그 경우가 readwrite 보다 적을 때 사용됨. 트랜잭션 관리가 비교적 엄격하지 않음.	
 
 	@Id // 키값 설정
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, // 사용할 전략을 시퀀스로 선택
@@ -45,12 +45,14 @@ public class User{
 
 	@Column(nullable = false, length = 20) // 컬럼 속성 결정
 	private String name;
-
+	
+	// timstamp로 데이터가 생성될때 자동으로 날짜 등록
 	@Column(name = "enroll_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp enrollDate;
-
+	// fetch type lazy--> 지연로딩 --> 유저 엔티티 시행시 getPhone실행시 phone Collection을 로딩하지 못함(no session)-->hibernate.initialize
+	// eager--> 즉시로딩 --> getphone실행시 phone collection 즉시 로딩 --> 성능저하
 //	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
-	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Cache(region = "User.phone", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Collection<Phone> phone;
 	
@@ -58,7 +60,6 @@ public class User{
 	// dirty checking mechanism,
 	// many developers choose to map the child entities as a collection in the
 	// parent object, and, for this purpose, JPA offers the @OneToMany annotation.
-	//http://wonwoo.ml/index.php/post/1002
 	public Long getId() {
 		return id;
 	}
@@ -80,8 +81,8 @@ public class User{
 	}
 
 	public void setPhone(Collection<Phone> phone) {
-	    this.phone.clear();
-	    this.phone.addAll(phone);
+		this.phone.clear();// 컬렉션에 적용된 캐시를 갱신하기 위해 클리어후
+		this.phone.addAll(phone);// 매개변수로 들어간 collection을 다시 넣어준다.
 	}
 
 	public User() {
@@ -96,8 +97,8 @@ public class User{
 		if (phone == null) {
 			phone = new ArrayList<Phone>();
 		}
-		phone.add(p);
-		p.setUser(this);
+		phone.add(p);// 양방향 맵핑이 되어있기 때문에 collection에 더해주는 것으로 phone 엔티티를 추가할 수 잇음
+		p.setUser(this);// 전화기 엔티티에 이 사용자를 매핑해준다.
 	}
 
 	public Timestamp getEnrollDate() {
@@ -113,14 +114,15 @@ public class User{
 			phone = new ArrayList<Phone>();
 		}
 		phone.removeIf(ph -> ph.getSeq() == p.getSeq());
-		p.setUser(null);
+		// 람다식 : foreach seq가 같은 phone객체를 삭제
+		p.setUser(null);// 전화기 엔티티에 사용자 매핑 삭제
 	}
 
 	@Override
 	public String toString() {
 		String result = "[" + id + "] " + name;
 		for (Phone p : phone) {
-			result += "\n" + p.toString();
+			result += "\n" + p.toString();// 디버깅용
 		}
 		return result;
 	}
