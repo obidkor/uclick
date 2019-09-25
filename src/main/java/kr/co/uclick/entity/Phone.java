@@ -28,7 +28,7 @@ import org.hibernate.annotations.NotFoundAction;
 @Entity
 @Table(name="phone",uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"number"})
-		})
+		})//number에 unique key 지정
 @Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Phone {
 
@@ -41,10 +41,12 @@ public class Phone {
 	@Column // 컬럼 속성 결정
 	private String number;
 
+	//일대다 양방향 매핑은 child가 parent를 알기 때문에 불필요한 오버헤드가 발생하지 않는다. 1:N에서 N이 적을때는 양방향이 안좋을 수도 있다.
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-//	@Cache(region = "phone",usage = CacheConcurrencyStrategy.READ_WRITE)
+	@JoinColumn(name = "user_id")//join table을 통해 
 	private User user;
+	//일대다 양방향 매핑은 도메인 로직 상에서 parent를 몰라도 되는 child에게 굳이 parent를 강제로 알게 만드는 것이 단점인데, 
+	//이 단점은 parent에 대한 public getter 메서드를 만들지 않거나 또는 극단적으로 아예 parent에 대한 getter 메서드를 만들지 않는 방식으로 보완
 	
 	@Column(name="enroll_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp enrollDate;
@@ -82,7 +84,7 @@ public class Phone {
 	}
 
 	public User getUser() {
-		return user;
+		return user;//그러나 getUser는 비지니스 로직상 필요하다.
 	}
 
 	public void setUser(User user) {
@@ -91,7 +93,7 @@ public class Phone {
 
 	@Override
 	public String toString() {
-		String result = "[phone_" + seq + "] " + number;
+		String result = "[phone_" + seq + "] " + number; //디버깅용
 		return result;
 	}
 }
