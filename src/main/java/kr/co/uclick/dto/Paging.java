@@ -1,10 +1,5 @@
 package kr.co.uclick.dto;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import kr.co.uclick.service.UserService;
 
 public class Paging {
 
@@ -13,8 +8,8 @@ public class Paging {
 	public int countList; // 한 페이지에 출력될 게시물 수
 	public int totalPage;// 토탈 페이지 수;
 	public int countPage = 5; // 한 페이지에 출력될 페이지 수
-	public int startPage = ((pagenow - 1) / countPage) * countPage + 1;// 스타트페이지
-	public int endPage = startPage + countPage - 1;// 엔드페이지
+	public int startPage;// 스타트페이지
+	public int endPage;// 엔드페이지
 
 	public int getPagenow() {
 		return pagenow;
@@ -26,12 +21,12 @@ public class Paging {
 
 	public Paging setPagenow(int pagenow) {
 		this.pagenow = pagenow;
-		return this;
+		return this;//chaining
 	}
 
 	public Paging setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
-		return this;
+		return this;//chaining
 	}
 
 	public int getCountList() {
@@ -61,9 +56,11 @@ public class Paging {
 			// 이때 나머지가 0보다 크게되면 한페이지가 더있어야 마지막페이지를 표시가능 토탈페이지에 +1을 더해줘야함(소수점 버리기때문)
 			totalPage++;
 		}
+		
 		if (totalPage < pagenow) {// pagenow는 totalPage를 넘거가면안되므로
 			pagenow = totalPage;// 넘어가면 같게 해준다.
 		}
+		
 		if (endPage > totalPage) {// endPage도 totalPage를 넘어갈수 없다.
 			endPage = totalPage;
 		}

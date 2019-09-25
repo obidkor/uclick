@@ -1,7 +1,7 @@
 package kr.co.uclick.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -16,9 +16,7 @@ import com.querydsl.core.types.Predicate;
 
 import kr.co.uclick.entity.Phone;
 import kr.co.uclick.entity.QPhone;
-import kr.co.uclick.entity.User;
 import kr.co.uclick.repository.PhoneRepository;
-import kr.co.uclick.repository.UserRepository;
 
 @Service//service bean 생성
 public class PhoneService {
@@ -51,8 +49,12 @@ public class PhoneService {
 			number="";
 		}
 		Predicate predicate = p.number.like(number);//number로 전화기 like검색
-		Phone p = phoneRepository.findOne(predicate).get();//검색된 하나 리넌
-		Hibernate.initialize(p.getUser().getPhone());//???왜하는거?
+		Phone p = null;
+		try {
+		p = phoneRepository.findOne(predicate).get();//검색된 하나 리넌
+		}catch(NoSuchElementException e) {
+			//do nothing
+		}
 		return p;
 	}
 	
@@ -65,7 +67,7 @@ public class PhoneService {
 		Predicate predicate = p.number.like("%"+number+"%");//넘버로 검색된 전화기 리스트 
 		List<Phone> list = (List<Phone>) phoneRepository.findAll(predicate);
 		for(int i=0; i<list.size();i++) {
-			Hibernate.initialize(list.get(i).getUser().getPhone());//이것도 왜함??
+			Hibernate.initialize(list.get(i).getUser().getPhone());
 		}
 		return list;
 	}

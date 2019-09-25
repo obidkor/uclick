@@ -9,19 +9,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div id="title">
-<h1>New Phone</h1>
-</div>
-<form method="post" class="userSaveForm" action="phoneSave.html">
-<table class="phoneList">
-<tr>
-<td>number</td><td><input type="text" name="number" value=""></td>
-<input type="hidden" name="id" value="${user.getId()}">
-</tr>
-</table>
-<button type="button" class="addBtn">전화기 추가</button>
-<input type="button" class="submitBtn" value="enroll">
-</form>
-<script src="<c:url value="/resources/js/userNewForm.js"/>"></script>
+	<div id="title">
+		<h1>New Phone</h1>
+	</div>
+	<form method="post" class="userSaveForm" action="phoneSave.html">
+		<table class="phoneList">
+			<tr>
+				<td>number</td>
+				<td><input type="text" name="number" value=""></td>
+				<input type="hidden" name="id" value="${user.getId()}">
+			</tr>
+		</table>
+		<button type="button" class="addBtn">전화기 추가</button>
+		<input type="button" class="submitBtn" value="enroll">
+	</form>
+	<script src="<c:url value="/resources/js/userNewForm.js"/>"></script>
 </body>
 </html>

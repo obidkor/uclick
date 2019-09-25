@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +41,9 @@
 			<input type="hidden" name="id" value="${e.id}">
 			<td><a href="oneUser.html?id=${e.id}">${e.id}</a></td>
 			<td>${e.name}</td>
-			<td>${e.enrollDate}</td>
+			<td>
+			<fmt:formatDate value="${e.enrollDate}" pattern="YYYY.MM.dd HH:mm" />
+			</td>
 			<td><input type="submit" formaction="userEditForm.html" value="update this user"></td>
 			<td><input type=button  value="delete" onClick="location.href='userDelete.html?id=${e.id}'"></td>
 			</form>	
@@ -54,7 +57,9 @@
 			<input type="hidden" name="id" value="${e.id}">
 			<td><a href="./oneUser.html?id=${e.id}">${e.id}</a></td>
 			<td>${e.name}</td>
-			<td>${e.enrollDate}</td>
+			<td>
+			<fmt:formatDate value="${e.enrollDate}" pattern="YYYY.MM.dd HH:mm" />
+			</td>
 			<td><input type="submit" formaction="./userEditForm.html" value="update this user"></td>
 			<td><input type=button  value="delete" onClick="location.href='userDelete.html?id=${e.id}'"></td>
 			</form>	
@@ -65,16 +70,17 @@
 
 </table>
  <div id="page">
+ 	<button type="button" onclick="location.href='./0?search=${search}&value=${value}'">&lt;&lt;</button>
 	<c:if test="${!users.isFirst()}">
 		<button type="button" onclick="location.href='./${page-2}?search=${search}&value=${value}'">&lt;</button>
 	</c:if>
 	<c:forEach begin="${startRange }" end="${endRange }" var="e">
-         <button type="button" onclick="location.href='./${e-1}?search=${search}&value=${value}'">${e }</button>
+	       <button type="button" onclick="location.href='./${e-1}?search=${search}&value=${value}'">${e }</button>
     </c:forEach>
     <c:if test="${!users.isLast()}">
-    <button type="button" onclick="location.href='./${page}?search=${search}&value=${value}'">&gt;</button>
+    	<button type="button" onclick="location.href='./${page}?search=${search}&value=${value}'">&gt;</button>
     </c:if>
-
+	<button type="button" onclick="location.href='./${endPage-1}?search=${search}&value=${value}'">&gt;&gt;</button>
 <button type="button" style="float:right "onclick="location.href='userNewForm.html'">사용자추가</button>
 </div>
 <hr>

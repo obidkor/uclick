@@ -1,13 +1,10 @@
 package kr.co.uclick.repository;
 
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
 
 import kr.co.uclick.entity.Phone;
 import kr.co.uclick.entity.QPhone;

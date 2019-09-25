@@ -1,8 +1,10 @@
+//div로 출력될 arr
 let Lists = [];
+//변수
 const input = document.querySelector("#myInput");
 const combo = document.querySelector(".searchCombo");
 
-function closeAllLists(elmnt) {
+function closeAllLists(elmnt) {//출력된 div를 지우는 함수
   /*close all autocomplete lists in the document,
   except the one passed as an argument:*/
   var x = document.getElementsByClassName("autocomplete-items");
@@ -13,7 +15,7 @@ function closeAllLists(elmnt) {
 }
 }
 
-function autoSearch(arr){
+function autoSearch(arr){//리스트에서 div를 만들어 화면에 출력
     var a, b, i, val = document.getElementById("myInput").value;
     /*close any already open lists of autocompleted values*/
     closeAllLists();
@@ -58,7 +60,7 @@ function autoSearch(arr){
 }
 
 
-function check(){
+function check(){//콤보박스 체크 함수
   if(combo.value==1){
      return 1;
   }else if(combo.value==2){
@@ -68,37 +70,37 @@ function check(){
 
 
 function getList(event){
-const optValue=check();
+const optValue=check();//콤보박스 체크
 var url;
-if(optValue==1){
+if(optValue==1){//콤보박스에 따른 url 변경
   url = 'http://localhost:8085/sendNumberLike?number='
 }else{
   url = 'http://localhost:8085/sendNameLike?name='
 }
 fetch(
   url+input.value
-  )
+  )//
 .then(function(response) {
-  return response.json();
+  return response.json();//리턴된 값을 json으로 파싱
 })
 .then(function(myJson) {
-	Lists=[];
+	Lists=[];//리스트 초기화
   for(var i in myJson){
-    if(optValue==1){
+    if(optValue==1){//콤보박스에 따라 다른 값을 List에 넣어준다.
       Lists.push(myJson[i].number);
     }else{
       Lists.push(myJson[i].name);
     }
   }
   console.log(Lists);
-  autoSearch(Lists);
+  autoSearch(Lists);//List에 따라 autocomplete div 출력
 }).catch(function(err){
-  console.log(err);
+  console.log(err);//에러처리
 }
 )};
 
 function init(){
-  input.addEventListener("input",getList);
+  input.addEventListener("input",getList);//입력될때마다 출력될 List가 채워진다.(5개)
 }
 
 init();

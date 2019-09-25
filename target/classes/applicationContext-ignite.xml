@@ -30,6 +30,7 @@
 		<property name="cacheConfiguration">
 			<list>
 				<!-- Configuration for L2cache mapping -->
+				<!-- value에 region을 지정해줘야함 -->
 				<bean parent="transactional-cache">
 				<property name="name" value="User"/>
 				</bean>

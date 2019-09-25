@@ -9,17 +9,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div id="title">
-<h1>New User</h1>
-</div>
-<Table>
-<form method="post" action="userSave.html">
-<tr>
-<input type = "hidden" name="id" value="${thisUser.getId()}">
-<td>name</td><td><input type="text" name="name" value="${thisUser.getName()}"></td>
-</tr>
-</Table>
-<input type="submit" value="update">
-</form>
+	<div id="title">
+		<h1>Update User</h1>
+	</div>
+	<Table>
+		<form method="post" action="userSave.html">
+			<tr>
+				<input type="hidden" name="id" value="${thisUser.getId()}">
+				<td>name</td>
+				<td><input type="text" name="name"
+					value="${thisUser.getName()}"></td>
+			</tr>
+	</Table>
+	<input type="submit" value="update">
+	</form>
 </body>
 </html>

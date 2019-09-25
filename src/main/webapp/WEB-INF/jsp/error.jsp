@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>에러 : ${error}</h3>
-<button type="button" onclick="history.back(-1)">뒤로가기</button>
+	<h3>에러 : ${error}</h3>
+	<button type="button" onclick="history.back(-1)">뒤로가기</button>
 </body>
 </html>

@@ -7,12 +7,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ignite.cache.hibernate.HibernateRegionFactory;
-import org.hibernate.MappingException;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.MySQL5Dialect;
-import org.hibernate.engine.spi.Mapping;
-import org.hibernate.id.factory.IdentifierGeneratorFactory;
-import org.hibernate.type.Type;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

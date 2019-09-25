@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 // 참고 : https://dololak.tistory.com/479
 )
 @Table(name = "user")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class) // 양방향으로 매핑된 엔티티들을 파싱할때 Infinite recursion							// 에러 방지
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class) // 양방향으로 매핑된 엔티티들을 파싱할때 Infinite recursion에러 방지
 @Cache(region = "User", usage = CacheConcurrencyStrategy.READ_WRITE) // cache region설정, cache starategy_readwrite
 public class User {
 //cachecouncurrenycy strategy : read_write : data가 update될 필요가 있을 경우 사용. 내장된 cacheprovider가 트랜잭션 locking을 보장 하지 않음
@@ -49,10 +49,10 @@ public class User {
 	// timstamp로 데이터가 생성될때 자동으로 날짜 등록
 	@Column(name = "enroll_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp enrollDate;
+
 	// fetch type lazy--> 지연로딩 --> 유저 엔티티 시행시 getPhone실행시 phone Collection을 로딩하지 못함(no session)-->hibernate.initialize
 	// eager--> 즉시로딩 --> getphone실행시 phone collection 즉시 로딩 --> 성능저하
-//	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Cache(region = "User.phone", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Collection<Phone> phone;
 	

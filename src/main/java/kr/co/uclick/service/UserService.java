@@ -1,17 +1,13 @@
 package kr.co.uclick.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +16,6 @@ import com.querydsl.core.types.Predicate;
 
 import kr.co.uclick.entity.QUser;
 import kr.co.uclick.entity.User;
-import kr.co.uclick.repository.CustomSampleRepositoryImpl;
 import kr.co.uclick.repository.UserRepository;
 
 @Service//service bean생성
@@ -61,7 +56,12 @@ public class UserService {
 			name="";
 		}
 		Predicate predicate = u.name.like(name);//정확히 검색되는 조검 검색/eq해도됨
-		User u = userRepository.findOne(predicate).get();
+		User u = null;
+		try {	
+		u = userRepository.findOne(predicate).get();
+		}catch(NoSuchElementException e) {
+			//do nothing
+		}
 		Hibernate.initialize(u.getPhone());//fetch type이 기본 LAZY이기 때문에 hibernate를 사용해 collection의 세션관리.
 		return u;//정확히 검색된 하나를 리턴
 	}

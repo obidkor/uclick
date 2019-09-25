@@ -1,29 +1,19 @@
 package kr.co.uclick.entity;
 
-import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 
-import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 @Entity
 @Table(name="phone",uniqueConstraints = {
@@ -32,10 +22,9 @@ import org.hibernate.annotations.NotFoundAction;
 @Cache(region = "Phone",usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Phone {
 
-//	private static final long serialVersionUID = -21L;
 	@Id
 	@Column(name = "seq")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)//키 생성전략 Auto 키 테이블을 분리함
 	private int seq;
 
 	@Column // 컬럼 속성 결정
